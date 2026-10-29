@@ -152,6 +152,12 @@
             background: linear-gradient(180deg, #181925 0%, #0b0c12 100%);
         }
 
+        /* Make the live design preview larger across all font selections. */
+        #liveNeonText {
+            font-size: clamp(3rem, 6vw, 5rem) !important;
+            line-height: 1.15;
+        }
+
         /* Acrylic Backing Board Visual Simulation */
         .acrylic-cut-shape {
             padding: 1rem 2rem;
@@ -168,6 +174,14 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+        }
+
+        .acrylic-edge-to-edge {
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 24px rgba(255,255,255,0.08);
         }
 
         .acrylic-stand {
@@ -199,7 +213,7 @@
     <!-- Top Announcement Bar -->
     <div class="bg-gradient-to-r from-purple-900 via-pink-600 to-cyan-600 text-white text-xs sm:text-sm font-semibold py-2 px-4 text-center tracking-wide flex justify-between items-center z-50">
         <span class="hidden md:inline"><i class="fa-solid font-bold fa-bolt text-yellow-300 mr-2"></i> Custom Neon Order Processing: 3-5 Working Days</span>
-        <span class="mx-auto md:mx-0"><i class="fa-solid fa-truck-fast mr-1"></i> FREE Delivery Across Pakistan on Orders Over PKR 4,999</span>
+        <span class="mx-auto md:mx-0"><i class="fa-solid fa-truck-fast mr-1"></i> Delivery: PKR 300 in Karachi · PKR 500 across Pakistan</span>
         <span class="hidden md:inline"><i class="fa-brands fa-whatsapp text-green-400 mr-1"></i> Helpline: +92 300 1234567</span>
     </div>
 
@@ -431,13 +445,15 @@
                             <span class="text-xs text-gray-400"><span id="charCount">14</span>/30 chars</span>
                         </div>
                         <input type="hidden" id="customTextInput" value="Your Text Here" maxlength="30" oninput="updateBuilder()">
-                        <div class="mb-3 grid grid-cols-2 gap-2" role="group" aria-label="Choose custom sign name style">
-                            <button id="singleNameModeButton" type="button" onclick="setCustomNameMode('single')" class="rounded-xl border border-neonPink bg-neonPink/10 px-3 py-2.5 text-xs font-bold text-white">Single name</button>
-                            <button id="coupleNameModeButton" type="button" onclick="setCustomNameMode('couple')" class="rounded-xl border border-gray-700 bg-cardbg px-3 py-2.5 text-xs font-bold text-gray-300 hover:border-neonPink">Couple names</button>
+                        <div class="mb-3 grid grid-cols-3 gap-2" role="group" aria-label="Choose custom sign type">
+                            <button id="singleNameModeButton" type="button" onclick="setCustomNameMode('single')" class="rounded-xl border border-neonPink bg-neonPink/10 px-2 py-2.5 text-xs font-bold text-white">Single name</button>
+                            <button id="coupleNameModeButton" type="button" onclick="setCustomNameMode('couple')" class="rounded-xl border border-gray-700 bg-cardbg px-2 py-2.5 text-xs font-bold text-gray-300 hover:border-neonPink">Couple names</button>
+                            <button id="logoModeButton" type="button" onclick="setCustomNameMode('logo')" class="rounded-xl border border-gray-700 bg-cardbg px-2 py-2.5 text-xs font-bold text-gray-300 hover:border-neonPink">Brand logo</button>
                         </div>
                         <div id="singleNameFields">
                             <label for="singleNameInput" class="sr-only">Single name or phrase</label>
                             <input type="text" id="singleNameInput" value="Your Text Here" maxlength="30" oninput="syncCustomNames()" placeholder="Enter one name or phrase" class="w-full bg-cardbg border border-gray-700 rounded-xl px-4 py-3 text-white text-base focus:outline-none focus:border-neonPink font-medium transition-colors">
+                            <p class="mt-2 text-[11px] text-gray-500">Single name signs are Small size — PKR 2,000.</p>
                         </div>
                         <div id="coupleNameFields" class="hidden grid-cols-1 gap-3 sm:grid-cols-2">
                             <label class="block text-xs font-bold text-gray-300">First name
@@ -446,7 +462,19 @@
                             <label class="block text-xs font-bold text-gray-300">Second name
                                 <input type="text" id="coupleNameTwo" maxlength="13" oninput="syncCustomNames()" placeholder="e.g. Ahmed" class="mt-1 w-full bg-cardbg border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-neonPink">
                             </label>
-                            <p class="col-span-full text-[11px] text-gray-500">Names will appear on separate lines in your sign preview.</p>
+                            <p class="col-span-full text-[11px] text-gray-500">Names appear on separate lines. Couple signs are Medium size — PKR 3,000.</p>
+                        </div>
+                        <div id="logoFields" class="hidden space-y-3">
+                            <p class="text-xs text-gray-400">Brand logos are priced at PKR 1,500 per square foot. Enter the finished signboard dimensions:</p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="block text-xs font-bold text-gray-300">Width (ft)
+                                    <input type="number" id="logoWidth" min="1" max="8" value="2" step="0.5" oninput="updateLogoPrice()" class="mt-1 w-full bg-cardbg border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-neonPink">
+                                </label>
+                                <label class="block text-xs font-bold text-gray-300">Height (ft)
+                                    <input type="number" id="logoHeight" min="1" max="8" value="2" step="0.5" oninput="updateLogoPrice()" class="mt-1 w-full bg-cardbg border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-neonPink">
+                                </label>
+                            </div>
+                            <p class="text-[11px] text-gray-500">Minimum board: 1 × 1 ft. Maximum board: 8 × 8 ft. Tell us your logo details below.</p>
                         </div>
                     </div>
 
@@ -491,30 +519,12 @@
                         </div>
                     </div>
 
-                    <!-- Control 4: Size Option Selector -->
-                    <div>
-                        <label class="text-sm font-bold text-white flex items-center gap-2 mb-2">
-                            <span class="w-5 h-5 rounded-full bg-neonPink text-white text-xs flex items-center justify-center">4</span>
-                            Select Size
-                        </label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="setSignSize('small', 2000, '6-16 inches', this)" class="size-btn p-2.5 rounded-xl bg-cardbg border-2 border-gray-700 hover:border-gray-500 text-left transition-all">
-                                <div class="text-xs font-bold text-white">Small (6-16")</div>
-                                <div class="text-[11px] text-gray-400">PKR 2000</div>
-                            </button>
-                            <button onclick="setSignSize('medium', 3000, '10-18 inches', this)" class="size-btn p-2.5 rounded-xl bg-cardbg border-2 border-neonPink text-left transition-all">
-                                <div class="text-xs font-bold text-white">Medium (10-18") <span class="text-[9px] bg-neonPink text-white px-1.5 rounded ml-1">POPULAR</span></div>
-                                <div class="text-[11px] text-gray-400">PKR 3000</div>
-                            </button>
-                            <button onclick="setSignSize('large', 9500, '30-36 inches', this)" class="size-btn p-2.5 rounded-xl bg-cardbg border-2 border-gray-700 hover:border-gray-500 text-left transition-all">
-                                <div class="text-xs font-bold text-white">Large (30-36")</div>
-                                <div class="text-[11px] text-gray-400">PKR 9,500</div>
-                            </button>
-                            <button onclick="setSignSize('xl', 13500, '42-48 inches', this)" class="size-btn p-2.5 rounded-xl bg-cardbg border-2 border-gray-700 hover:border-gray-500 text-left transition-all">
-                                <div class="text-xs font-bold text-white">Extra Large (42-48")</div>
-                                <div class="text-[11px] text-gray-400">PKR 13,500</div>
-                            </button>
-                        </div>
+                    <!-- Fixed name sizes; logo size is calculated from board dimensions. -->
+                    <div id="nameSizeSummary" class="rounded-xl border border-gray-800 bg-cardbg px-4 py-3 text-xs text-gray-300">
+                        <span class="font-bold text-white">Sign size:</span> <span id="nameSizeText">Small — PKR 2,000</span>
+                    </div>
+                    <div id="logoSizeSummary" class="hidden rounded-xl border border-gray-800 bg-cardbg px-4 py-3 text-xs text-gray-300">
+                        <span class="font-bold text-white">Logo board:</span> <span id="logoAreaText">4 sq ft × PKR 1,500 = PKR 6,000</span>
                     </div>
 
                     <!-- Control 5: Acrylic Backing Board Style -->
@@ -525,6 +535,7 @@
                         </label>
                         <select id="acrylicStyleSelect" onchange="updateBackingStyle()" class="w-full bg-cardbg border border-gray-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-neonPink">
                             <option value="cut-shape">Cut To Shape (Recommended Contour)</option>
+                            <option value="edge-to-edge">Edge-to-Edge Cut</option>
                             <option value="rectangle">Full Rectangle Board</option>
                             <option value="stand">Acrylic Cutout Desk Stand</option>
                         </select>
@@ -532,15 +543,21 @@
 
                     <!-- Price & Action Buttons -->
                     <div class="pt-4 border-t border-gray-800 space-y-4">
+                        <label for="deliveryArea" class="block text-xs font-bold text-gray-300">Delivery area</label>
+                        <select id="deliveryArea" onchange="updateBuilder()" class="w-full bg-cardbg border border-gray-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-neonPink">
+                            <option value="karachi">Karachi — PKR 300 delivery</option>
+                            <option value="other">Other cities in Pakistan — PKR 500 delivery</option>
+                        </select>
                         <div class="flex justify-between items-end">
                             <div>
-                                <div class="text-xs text-gray-400">Estimated Total:</div>
+                                <div class="text-xs text-gray-400">Sign + delivery total:</div>
                                 <div class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neonPink to-neonCyan">
-                                    PKR <span id="builderPriceDisplay">6,800</span>
+                                    PKR <span id="builderPriceDisplay">2,300</span>
                                 </div>
+                                <div class="text-[11px] text-gray-500">Sign: PKR <span id="builderSignPrice">2,000</span> · Delivery: PKR <span id="builderDeliveryPrice">300</span></div>
                             </div>
                             <div class="text-xs text-emerald-400 font-semibold bg-emerald-950/60 border border-emerald-800 px-2.5 py-1 rounded-lg">
-                                <i class="fa-solid fa-truck-fast mr-1"></i> Free Shipping
+                                <i class="fa-solid fa-truck-fast mr-1"></i> Paid delivery
                             </div>
                         </div>
 
@@ -783,8 +800,8 @@
                             <span class="text-white font-bold">PKR <span id="cartSubtotal">0</span></span>
                         </div>
                         <div class="flex justify-between text-gray-400">
-                            <span>Shipping Nationwide</span>
-                            <span class="text-emerald-400 font-bold">FREE</span>
+                            <span>Delivery</span>
+                            <span class="text-emerald-400 font-bold">PKR <span id="cartShipping">0</span></span>
                         </div>
                         <div class="flex justify-between text-base text-white font-black pt-2 border-t border-gray-700">
                             <span>Total Amount</span>
@@ -960,9 +977,13 @@
                 colorClass: "neon-glow-pink",
                 colorHex: "#FF007F",
                 colorName: "Electric Pink",
-                sizeKey: "medium",
-                sizeDimension: "20-24 inches",
-                price: 6800,
+                sizeKey: "small",
+                sizeDimension: "6-16 inches",
+                price: 2000,
+                nameMode: "single",
+                logoWidth: 2,
+                logoHeight: 2,
+                deliveryFee: 300,
                 acrylicStyle: "Cut To Shape",
                 isPoweredOn: true,
                 wallTexture: "wall-brick"
@@ -1083,20 +1104,39 @@
         function updateBuilder() {
             const textInput = document.getElementById('customTextInput');
             let textVal = textInput.value.trim();
-            
-            if (textVal === "") {
-                textVal = "Your Text";
-            }
-            
+            if (textVal === "") textVal = "Your Text";
+
             appState.customSign.text = textVal;
+            appState.customSign.deliveryFee = document.getElementById('deliveryArea').value === 'karachi' ? 300 : 500;
             document.getElementById('charCount').innerText = textVal.length;
 
             const liveDisplay = document.getElementById('liveNeonText');
             liveDisplay.innerText = textVal;
             liveDisplay.className = `break-words max-w-full px-4 py-2 transition-all duration-300 select-none ${appState.customSign.fontFamily} ${appState.customSign.isPoweredOn ? appState.customSign.colorClass : 'text-gray-600 shadow-none'}`;
-            
-            document.getElementById('builderPriceDisplay').innerText = appState.customSign.price.toLocaleString();
+
+            const signPrice = appState.customSign.price;
+            document.getElementById('builderSignPrice').innerText = signPrice.toLocaleString();
+            document.getElementById('builderDeliveryPrice').innerText = appState.customSign.deliveryFee.toLocaleString();
+            document.getElementById('builderPriceDisplay').innerText = (signPrice + appState.customSign.deliveryFee).toLocaleString();
             document.getElementById('previewDimensionTag').innerText = appState.customSign.sizeDimension;
+        }
+
+        function updateLogoPrice() {
+            const widthInput = document.getElementById('logoWidth');
+            const heightInput = document.getElementById('logoHeight');
+            const width = Math.min(8, Math.max(1, Number(widthInput.value) || 1));
+            const height = Math.min(8, Math.max(1, Number(heightInput.value) || 1));
+            widthInput.value = width;
+            heightInput.value = height;
+            const area = width * height;
+
+            appState.customSign.logoWidth = width;
+            appState.customSign.logoHeight = height;
+            appState.customSign.price = area * 1500;
+            appState.customSign.sizeKey = 'logo';
+            appState.customSign.sizeDimension = `${width} × ${height} ft (${area} sq ft)`;
+            document.getElementById('logoAreaText').innerText = `${area} sq ft × PKR 1,500 = PKR ${appState.customSign.price.toLocaleString()}`;
+            updateBuilder();
         }
 
         function setFontStyle(styleKey, btnElem) {
@@ -1167,6 +1207,9 @@
             if (val === 'cut-shape') {
                 board.classList.add('acrylic-cut-shape');
                 appState.customSign.acrylicStyle = "Cut To Shape";
+            } else if (val === 'edge-to-edge') {
+                board.classList.add('acrylic-edge-to-edge');
+                appState.customSign.acrylicStyle = "Edge-to-Edge Cut";
             } else if (val === 'rectangle') {
                 board.classList.add('acrylic-rectangle');
                 appState.customSign.acrylicStyle = "Full Rectangle Board";
@@ -1207,9 +1250,10 @@
             const item = {
                 id: 'custom-' + Date.now(),
                 title: `Custom Sign: "${appState.customSign.text}"`,
-                details: `Size: ${appState.customSign.sizeDimension} | Backing: ${appState.customSign.acrylicStyle}${appState.customSign.description ? ` | Notes: ${appState.customSign.description}` : ''}`,
+                details: `Size: ${appState.customSign.sizeDimension} | Backing: ${appState.customSign.acrylicStyle} | Delivery: PKR ${appState.customSign.deliveryFee}${appState.customSign.description ? ` | Notes: ${appState.customSign.description}` : ''}`,
                 price: appState.customSign.price,
                 qty: 1,
+                deliveryFee: appState.customSign.deliveryFee,
                 isCustom: true,
                 colorName: appState.customSign.colorName
             };
@@ -1348,6 +1392,7 @@
                     </div>
                 `;
                 document.getElementById('cartSubtotal').innerText = '0';
+                document.getElementById('cartShipping').innerText = '0';
                 document.getElementById('cartTotal').innerText = '0';
                 return;
             }
@@ -1374,8 +1419,10 @@
                 itemList.appendChild(cartCard);
             });
 
+            const shipping = appState.cart.reduce((fee, item) => Math.max(fee, Number(item.deliveryFee) || 0), 0);
             document.getElementById('cartSubtotal').innerText = subtotal.toLocaleString();
-            document.getElementById('cartTotal').innerText = subtotal.toLocaleString();
+            document.getElementById('cartShipping').innerText = shipping.toLocaleString();
+            document.getElementById('cartTotal').innerText = (subtotal + shipping).toLocaleString();
         }
 
         function changeQty(index, change) {
@@ -1430,8 +1477,9 @@
                 grandTotal += item.price * item.qty;
             });
 
-            orderSummary += `%0A*Total Amount:* PKR ${grandTotal.toLocaleString()}%0A`;
-            orderSummary += `*Shipping:* FREE Nationwide%0A%0A`;
+            const shipping = appState.cart.reduce((fee, item) => Math.max(fee, Number(item.deliveryFee) || 0), 0);
+            orderSummary += `%0A*Delivery:* PKR ${shipping.toLocaleString()}%0A`;
+            orderSummary += `*Total Amount:* PKR ${(grandTotal + shipping).toLocaleString()}%0A%0A`;
             orderSummary += `Please process my order! Thank you.`;
 
             const adminOrders = JSON.parse(localStorage.getItem('moTradersOrders') || '[]');
@@ -1440,7 +1488,8 @@
                 createdAt: new Date().toISOString(),
                 customer: { name, phone, city, address, payment },
                 items: appState.cart.map(item => ({ id: item.id, title: item.title, price: item.price, quantity: item.qty, details: item.details })),
-                total: grandTotal,
+                shipping,
+                total: grandTotal + shipping,
                 status: 'New'
             });
             localStorage.setItem('moTradersOrders', JSON.stringify(adminOrders));
@@ -1499,40 +1548,54 @@
     </script>
     <script>
         function setCustomNameMode(mode) {
+            appState.customSign.nameMode = mode;
+            const singleMode = mode === 'single';
             const coupleMode = mode === 'couple';
-            const singleFields = document.getElementById('singleNameFields');
-            const coupleFields = document.getElementById('coupleNameFields');
-            const singleButton = document.getElementById('singleNameModeButton');
-            const coupleButton = document.getElementById('coupleNameModeButton');
+            const logoMode = mode === 'logo';
 
-            singleFields.classList.toggle('hidden', coupleMode);
-            if (coupleMode) {
-                coupleFields.classList.remove('hidden');
-                coupleFields.classList.add('grid');
+            document.getElementById('singleNameFields').classList.toggle('hidden', !singleMode);
+            document.getElementById('coupleNameFields').classList.toggle('hidden', !coupleMode);
+            document.getElementById('coupleNameFields').classList.toggle('grid', coupleMode);
+            document.getElementById('logoFields').classList.toggle('hidden', !logoMode);
+            document.getElementById('nameSizeSummary').classList.toggle('hidden', logoMode);
+            document.getElementById('logoSizeSummary').classList.toggle('hidden', !logoMode);
+
+            ['single', 'couple', 'logo'].forEach(key => {
+                const button = document.getElementById(`${key === 'logo' ? 'logo' : key}NameModeButton`) || document.getElementById('logoModeButton');
+                const active = key === mode;
+                button.classList.toggle('border-neonPink', active);
+                button.classList.toggle('bg-neonPink/10', active);
+                button.classList.toggle('border-gray-700', !active);
+                button.classList.toggle('text-white', active);
+                button.classList.toggle('text-gray-300', !active);
+            });
+
+            const sizeText = document.getElementById('nameSizeText');
+            if (singleMode) {
+                appState.customSign.sizeKey = 'small';
+                appState.customSign.sizeDimension = '6-16 inches';
+                appState.customSign.price = 2000;
+                sizeText.innerText = 'Small (6-16 inches) — PKR 2,000';
+            } else if (coupleMode) {
+                appState.customSign.sizeKey = 'medium';
+                appState.customSign.sizeDimension = '10-18 inches';
+                appState.customSign.price = 3000;
+                sizeText.innerText = 'Medium (10-18 inches) — PKR 3,000';
             } else {
-                coupleFields.classList.add('hidden');
-                coupleFields.classList.remove('grid');
+                updateLogoPrice();
             }
-            singleButton.classList.toggle('border-neonPink', !coupleMode);
-            singleButton.classList.toggle('bg-neonPink/10', !coupleMode);
-            singleButton.classList.toggle('border-gray-700', coupleMode);
-            singleButton.classList.toggle('text-white', !coupleMode);
-            singleButton.classList.toggle('text-gray-300', coupleMode);
-            coupleButton.classList.toggle('border-neonPink', coupleMode);
-            coupleButton.classList.toggle('bg-neonPink/10', coupleMode);
-            coupleButton.classList.toggle('border-gray-700', !coupleMode);
-            coupleButton.classList.toggle('text-white', coupleMode);
-            coupleButton.classList.toggle('text-gray-300', !coupleMode);
-            syncCustomNames(coupleMode ? 'couple' : 'single');
+            syncCustomNames(mode);
         }
 
         function syncCustomNames(mode) {
-            const selectedMode = mode || (document.getElementById('coupleNameFields').classList.contains('hidden') ? 'single' : 'couple');
+            const selectedMode = mode || appState.customSign.nameMode;
             const textInput = document.getElementById('customTextInput');
             if (selectedMode === 'couple') {
                 const firstName = document.getElementById('coupleNameOne').value.trim();
                 const secondName = document.getElementById('coupleNameTwo').value.trim();
                 textInput.value = firstName && secondName ? `${firstName}\n${secondName}` : (firstName || secondName || 'Your Text Here');
+            } else if (selectedMode === 'logo') {
+                textInput.value = 'Brand Logo';
             } else {
                 textInput.value = document.getElementById('singleNameInput').value.trim() || 'Your Text Here';
             }
